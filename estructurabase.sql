@@ -1,53 +1,63 @@
--- Create a new database called 'tareaNormalizacion'
+-- Create a new database called 'Tarea'
 -- Connect to the 'master' database to run this snippet
 USE master
 GO
 -- Create the new database if it does not exist already
-IF NOT EXISTS (
+IF EXISTS (
     SELECT name
         FROM sys.databases
-        WHERE name = N'tareaNormalizacion'
+        WHERE name = N'Tarea'
 )
-CREATE DATABASE tareaNormalizacion
+DROP DATABASE Tarea
 GO
-DROP DATABASE tareaNormalizacion
+CREATE DATABASE Tarea
 GO
-CREATE DATABASE tareaNormalizacion
+USE Tarea
 GO
-USE tareaNormalizacion
-GO
-
--- Create the table in the specified schema
-CREATE TABLE dbo.consumo
-(
-    id [INT] IDENTITY(1,1) NOT NULL, --primary key column
-    claseDia [NVARCHAR](50) NOT NULL,
-    periodoRuta [FLOAT] NOT NULL,
-    periodoIntermedio [FLOAT] NOT NULL,
-    periodoValle [FLOAT] NOT NULL,
-    CONSTRAINT pkconsumo PRIMARY KEY(id)
-    -- specify more columnsdbo. herdbo.e
+CREATE TABLE [dbo].[HorariosT](
+	Id [INT] IDENTITY(1,1) NOT NULL, -- primary key column
+	DiaTipo [int] NOT NULL,
+	ClasesDia [varchar](25) NOT NULL,
+	Periodo [varchar](25) NOT NULL,
+	TipoPer [int] NOT NULL,
+	Hora [varchar](18) NOT NULL,
+	HorasPP [int] NOT NULL,
+	HorasPI [int] NOT NULL,
+	HorasPV [int] NOT NULL,
+CONSTRAINT pkHorariosT PRIMARY KEY(id)
 );
 GO
 
--- Insert rows into table 'TableName'
-INSERT INTO consumo
-( -- columns to insert data into
- [claseDia], [periodoRuta], [periodoIntermedio], [periodoValle]
+INSERT INTO HorariosT 
+(
+  [DiaTipo], [ClasesDia], [Periodo], [TipoPer], [Hora], [HorasPP], [HorasPI], [HorasPV]
 )
 VALUES
-( -- first row: values for the columns in the list above
- 'Laborable', '10 a 16, 18 a 22', '5 a 10, 16 a 18, 22 a 24', '0 a 5'
+(
+    2,'Laborable', N'De punta', 1, N'18 a 22', 10, 9, 5
 ),
-( -- first row: values for the columns in the list above
- 'sabado', '12 a 13, 19 a 20', '6 a 12, 13 a 19, 20 a 24', '0 a 6'
+(
+    3,'Sabado', N'De punta', 1, N'12 a 13', 2, 16, 6
 ),
-( -- first row: values for the columns in the list above
- 'Domingo o feriado', NULL, '11 a 13, 17 a 23', '0 a 11, 13 a 17, 23 a 24'
+(
+    5,'Sabado', N'De punta', 1, N'19 a 20', 2, 16, 6
 ),
+(
+    2,'Laborable', N'Intermedio', 2, N'5 a 10', 10, 9, 5
+),
+(
+    3,'Laborable', N'Intermedio', 2, N'16 a 18', 10, 9, 5
+),
+(
+    8,'Laborable', N'Intermedio', 2, N'22 a 24', 10, 9, 5
+),
+(
+    5,'Sabado', N'Intermedio', 2, N'6 a 12', 2, 16, 6
+)
 GO
 
--- Select rows from a Table or View 'consumo' in schema 'dbo'
-SELECT * FROM dbo.consumo
+
+-- Select rows from a Table or View 'HorariosT' in schema 'dbo'
+SELECT * FROM dbo.HorariosT
 --WHERE 	/* add search conditions here */
 GO
